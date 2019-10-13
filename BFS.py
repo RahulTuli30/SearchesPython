@@ -2,36 +2,49 @@ import sys
 from collections import defaultdict
 
 
-def BFS(initial_state, isGoal, successors):
-    assert initial_state, "Provide a Valid Initial State"
-    assert isGoal, "Provide a Valid isGoal function"
-    assert successors, "Provide a Valid Successor function"
+class BFS:
+    __slots__ = "initial_state", "goal_state", "successors"
 
-    Que = [initial_state]
-    parents = defaultdict(lambda: None)
+    def __init__(self, initial_state, goal_state, successors):
+        self.check_validity(initial_state, goal_state, successors)
+        self.initial_state, self.goal_state, self.successors = initial_state, goal_state, successors
 
-    done = False
+    @staticmethod
+    def check_validity(initial_state, goal_state, successors):
+        assert initial_state, "Provide Initial State"
+        assert goal_state, "Provide Valid Goal State"
+        assert successors, "Provide a Valid Successor function"
+        assert callable(successors), "Successors has to be a callable function"
 
-    while not done:
-        state = Que.pop()
+    def start(self):
+        Que = [self.initial_state]
+        parents = defaultdict(lambda: None)
 
-        if isGoal(state):
-            print("Goal Found! Building Path")
-            return build_path(state, parents)
+        done = False
 
-        for child in successors(state):
-            if not parents[child]:
-                parents[child] = state
-                Que.append(child)
+        while not done:
+            state = Que.pop()
 
-        done = len(Que) == 0
+            if self.isGoal(state):
+                print("Goal Found! Building Path")
+                return self.build_path(state, parents)
 
-def build_path(state, parents):
-    path  = [state]
+            for child in self.successors(state):
+                if not parents[child]:
+                    parents[child] = state
+                    Que.append(child)
 
-    while parents[state]:
-        path.append(parents[state])
-        state = parents[state]
+            done = len(Que) == 0
 
-    print("Built path! Now returning it")
-    return reversed(path)
+    def isGoal(self, state):
+        return state == self.goal_state
+
+    def build_path(self, state, parents):
+        path = [state]
+
+        while parents[state]:
+            path.append(parents[state])
+            state = parents[state]
+
+        print("Built path! Now returning it")
+        return reversed(path)
