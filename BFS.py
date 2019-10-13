@@ -87,7 +87,7 @@ def main():
     initial_state = Node(5)
     goal_state = Node(100)
     state = initial_state
-
+    print(state)
     i = 0
     while i <= 120:
         state.addChild(Node(i))
@@ -97,6 +97,8 @@ def main():
             children = state.getChildren()
             random_index = random.randint(0, len(children) - 1)
             state = children[random_index]
+            print([str(child) for child in children])
+            print("attachment at", children[random_index])
 
     bfs = BFS(initial_state, goal_state, successors)
     for element in bfs.start():
