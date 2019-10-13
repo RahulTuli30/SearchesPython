@@ -1,5 +1,6 @@
 import sys
 from collections import defaultdict
+import random
 
 
 class BFS:
@@ -43,9 +44,10 @@ class BFS:
             done = len(Que) == 0 or i > self.ITERATION_LIMIT
 
         print("Solution NOT found, or Iteration Limit reached")
+        return "FAILURE!"
 
     def isGoal(self, state):
-        return state == self.goal_state
+        return state.value == self.goal_state.value
 
     def build_path(self, state, parents):
         path = [state]
@@ -56,3 +58,49 @@ class BFS:
 
         print("Built path! Now returning it")
         return reversed(path)
+
+
+class Node:
+    __slots__ = "value", "children"
+
+    def __init__(self, val):
+        assert val is not None, "Invalid Value for Node"
+        self.value = val
+        self.children = []
+
+    def addChild(self, child):
+        assert isinstance(child, Node), "Child should be an instance of Node"
+        self.children.append(child)
+
+    def getChildren(self):
+        return self.children
+
+    def __str__(self):
+        return str(self.value)
+
+
+def successors(state):
+    return state.getChildren()
+
+
+def main():
+    initial_state = Node(5)
+    goal_state = Node(100)
+    state = initial_state
+
+    i = 0
+    while i <= 120:
+        state.addChild(Node(i))
+        i += 1
+
+        if random.randint(0, 100) % 10 == 0:
+            children = state.getChildren()
+            random_index = random.randint(0, len(children) - 1)
+            state = children[random_index]
+
+    bfs = BFS(initial_state, goal_state, successors)
+    for element in bfs.start():
+        print(element)
+
+if __name__ == '__main__':
+    main()
