@@ -18,6 +18,10 @@ class BFS:
         assert callable(successors), "Successors has to be a callable function"
         assert type(iter_limit) == int, "INVALID ITERATION LIMIT"
 
+    def setIterationLimit(self, newLimit):
+        assert type(newLimit) == int, "INVALID ITERATION LIMIT"
+        self.ITERATION_LIMIT = newLimit
+
     def start(self):
         Que = [self.initial_state]
         parents = defaultdict(lambda: None)
