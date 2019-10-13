@@ -47,7 +47,7 @@ class BFS:
         return "FAILURE!"
 
     def isGoal(self, state):
-        return state.value == self.goal_state.value
+        return state.value == self.goal_state.value #TODO
 
     def build_path(self, state, parents):
         path = [state]
