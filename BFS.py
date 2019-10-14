@@ -1,6 +1,5 @@
-import sys
 from collections import defaultdict
-import random
+import unittest
 
 
 class BFS:
@@ -11,14 +10,6 @@ class BFS:
         self.initial_state, self.goal_state, self.successors = initial_state, goal_state, successors
         self.ITERATION_LIMIT = iter_limit
 
-    @staticmethod
-    def check_validity(initial_state, goal_state, successors, iter_limit):
-        assert initial_state, "Provide Initial State"
-        assert goal_state, "Provide Valid Goal State"
-        assert successors, "Provide a Valid Successor function"
-        assert callable(successors), "Successors has to be a callable function"
-        assert type(iter_limit) == int, "INVALID ITERATION LIMIT"
-
     def setIterationLimit(self, newLimit):
         assert type(newLimit) == int, "INVALID ITERATION LIMIT"
         self.ITERATION_LIMIT = newLimit
@@ -26,13 +17,15 @@ class BFS:
     def start(self, verbose=False):
         Que = [self.initial_state]
         parents = defaultdict(lambda: None)
-
         done = False
-        i = 0
+        iterationNumber = 0
+
         while not done:
             state = Que.pop()
+
             if verbose:
                 print("current state is {} and Que is {}".format(state, Que))
+
             if self.isGoal(state):
                 if verbose:
                     print("Goal Found! Building Path")
@@ -42,8 +35,9 @@ class BFS:
                 if not parents[child] and child != self.initial_state:
                     parents[child] = state
                     Que.append(child)
-            i += 1
-            done = len(Que) == 0 or i > self.ITERATION_LIMIT
+
+            iterationNumber += 1
+            done = len(Que) == 0 or iterationNumber > self.ITERATION_LIMIT
 
         print("Solution NOT found, or Iteration Limit reached")
         return "FAILURE!"
@@ -53,17 +47,24 @@ class BFS:
 
     def build_path(self, state, parents, verbose=False):
         path = [state]
-        # print(parents)
         while parents[state]:
-            # print(parents[state])
             path.append(parents[state])
             state = parents[state]
+
         path = [_ for _ in reversed(path)]
+
         if verbose:
             print("Built path! {} Now returning it".format(path))
+
         return path
 
-import unittest
+    @staticmethod
+    def check_validity(initial_state, goal_state, successors, iter_limit):
+        assert initial_state, "Provide Initial State"
+        assert goal_state, "Provide Valid Goal State"
+        assert successors, "Provide a Valid Successor function"
+        assert callable(successors), "Successors has to be a callable function"
+        assert type(iter_limit) == int, "INVALID ITERATION LIMIT"
 
 
 class TestBfsForWaterJugs(unittest.TestCase):
@@ -73,10 +74,7 @@ class TestBfsForWaterJugs(unittest.TestCase):
 
     def successors(self, state):
         actions = [self.fill3, self.fill5, self.empty3, self.empty5, self.empty3in5, self.empty5in3]
-
         children = [action(state) for action in actions if action(state)]
-        # print("Successors of {} are {}".format(state, children))
-
         return children
 
     def fill3(self, state):
