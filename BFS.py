@@ -23,7 +23,7 @@ class BFS:
         assert type(newLimit) == int, "INVALID ITERATION LIMIT"
         self.ITERATION_LIMIT = newLimit
 
-    def start(self):
+    def start(self, verbose=False):
         Que = [self.initial_state]
         parents = defaultdict(lambda: None)
 
@@ -31,13 +31,15 @@ class BFS:
         i = 0
         while not done:
             state = Que.pop()
-
+            if verbose:
+                print("current state is {} and Que is {}".format(state, Que))
             if self.isGoal(state):
-                print("Goal Found! Building Path")
-                return self.build_path(state, parents)
+                if verbose:
+                    print("Goal Found! Building Path")
+                return self.build_path(state, parents, verbose)
 
             for child in self.successors(state):
-                if not parents[child]:
+                if not parents[child] and child != self.initial_state:
                     parents[child] = state
                     Que.append(child)
             i += 1
@@ -47,17 +49,19 @@ class BFS:
         return "FAILURE!"
 
     def isGoal(self, state):
-        return state.value == self.goal_state.value #TODO
+        return state == self.goal_state
 
-    def build_path(self, state, parents):
+    def build_path(self, state, parents, verbose=False):
         path = [state]
-
+        # print(parents)
         while parents[state]:
+            # print(parents[state])
             path.append(parents[state])
             state = parents[state]
-
-        print("Built path! Now returning it")
-        return reversed(path)
+        path = [_ for _ in reversed(path)]
+        if verbose:
+            print("Built path! {} Now returning it".format(path))
+        return path
 
 
 class Node:
@@ -104,5 +108,58 @@ def main():
     for element in bfs.start():
         print(element)
 
+
+import unittest
+
+
+class TestBfsForWaterJugs(unittest.TestCase):
+
+    def setUp(self) -> None:
+        pass
+
+    def successors(self, state):
+        actions = [self.fill3, self.fill5, self.empty3, self.empty5, self.empty3in5, self.empty5in3]
+
+        children = [action(state) for action in actions if action(state)]
+        # print("Successors of {} are {}".format(state, children))
+
+        return children
+
+    def fill3(self, state):
+        return 3, state[1]
+
+    def fill5(self, state):
+        return state[0], 5
+
+    def empty3(self, state):
+        return 0, state[1]
+
+    def empty5(self, state):
+        return state[0], 5
+
+    def empty3in5(self, state):
+        space = 5 - state[1]
+
+        if space >= state[0]:
+            return 0, state[1] + state[0]
+
+        return state[0] - space, state[1] + space
+
+    def empty5in3(self, state):
+        space = 3 - state[0]
+
+        if space >= state[1]:
+            return state[0] + space, 0
+
+        return state[0] + space, state[1] - space
+
+    def test_water_jugs(self):
+        initial_state = (0, 0)
+        goal_state = (3, 5)
+        bfs = BFS(initial_state=initial_state, goal_state=goal_state, successors=self.successors)
+        # print(bfs.start())
+        self.assertEqual(bfs.start(verbose=True), [(0, 0), (0, 5), (3, 5)])
+
+
 if __name__ == '__main__':
-    main()
+    unittest.main()
