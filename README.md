@@ -3,7 +3,7 @@
 Clean implementation of Breadth-First Search Algorithm.
 Test usage is shown using [unitest](https://docs.python.org/3/library/unittest.html)
 
-To perform BFS, all we need is an initial state, a goal state, and some actions that modify the state, these actions when applied to each state, it's successors, aka children. As we proceed, we keep appending the successors in a Que for processing them later. If we ever reach the goal state, we found a solution! Hurray. Else the algorithm keeps generating the next generation of children until no *new* states are produced.  We keep track of visited states using a visited or parents dictionary, and this dictionary also helps us build the path that led to this goal state later!
+To perform BFS, all we need is an initial state, a goal state, and some actions that modify the state, these actions when applied to each state, give it's successors, aka children. As we proceed, we keep appending the successors in a Que for processing them later. If we ever reach the goal state, we found a solution! Hurray. Else the algorithm keeps generating the next generation of children until no *new* states are produced.  We keep track of visited states using a visited or parents dictionary, and this dictionary also helps us build the path that led to this goal state later!
 
 ## Time and Complexity
 
