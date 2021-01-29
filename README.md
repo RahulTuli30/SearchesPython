@@ -1,4 +1,5 @@
-# SearchesPython
+# Searches
+
 Clean implementation of Breadth-First Search Algorithm.
 Test usage is shown using [unitest](https://docs.python.org/3/library/unittest.html)
 
