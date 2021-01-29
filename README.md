@@ -1,5 +1,5 @@
 # SearchesPython
-A clean implementation of generic Breadth First Search with test usage shown using (unitest)[https://docs.python.org/3/library/unittest.html]
+A clean implementation of generic Breadth First Search with test usage shown using [unitest](https://docs.python.org/3/library/unittest.html)
 
 ## Example
 
