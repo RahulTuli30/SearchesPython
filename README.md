@@ -73,7 +73,8 @@ class TestBfsForWaterJugs(unittest.TestCase):
 
 ```
 
-The BFS class itself is only about 60 lines of code with support for verbose message printing!!
+The BFS class itself is only about 60 lines of code with support for verbose message printing.
+Feel free to use this as is, or as a base for your own implementation!
 
 ```python
 class BFS:
@@ -142,4 +143,6 @@ class BFS:
 
 ```
 
-Feel free to use this as a base for your own implementation
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
