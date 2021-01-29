@@ -1,21 +1,21 @@
 # SearchesPython
-A clean implementation of generic Breadth First Search with test usage shown using [unitest](https://docs.python.org/3/library/unittest.html)
+Clean implementation of Breadth-First Search Algorithm.
+Test usage is shown using [unitest](https://docs.python.org/3/library/unittest.html)
 
-To perform BFS all we need is an initial state, a goal state, and some set of actions that modify the state, these actions when applied to each state give us it's successors aka children. As we proceed we keep appending the successors in a Que for processing them later, If we ever reach the goal state, we are done, else the we keep generating next generation of children unless no new states are produced, which we keep track of using a visited or parents dictionary, this dictionary also helps us build the path that led to this goal state later!
+To perform BFS, all we need is an initial state, a goal state, and some actions that modify the state, these actions when applied to each state, it's successors, aka children. As we proceed, we keep appending the successors in a Que for processing them later. If we ever reach the goal state, we found a solution! Hurray. Else the algorithm keeps generating the next generation of children until no *new* states are produced.  We keep track of visited states using a visited or parents dictionary, and this dictionary also helps us build the path that led to this goal state later!
 
 ## Time and Complexity
 
-Because we never do not know the total number of nodes before-hand the terminology needs to change,
+Because we do not know the total number of nodes before-hand, the terminology needs to change,
 
-Let's assume we that we reach the goal at depth *d*
-At each state the possible number of children will be at-most the number of actions applied, aka the *branching factor* let's call this number *b*
+Let's assume that we reach the goal at depth *d*
+At each state, the possible number of children will be at most the number of actions applied, aka the *branching factor* let's call this number *b*
 
 Thus the total number of nodes we visited is *O(b^(d))*
 
 Thus the Time Complexity will be *O(b^(d))*,
 
-Because we also keep track of each visited state in the parents dictionary,
-the Asymptotic space complexity is also *O(b^(d))*
+Because we also keep track of each visited state in the *parents* dictionary, the Asymptotic space complexity is also *O(b^(d))*
 
 
 ## Example Usage
